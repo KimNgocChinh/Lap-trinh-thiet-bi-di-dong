@@ -9,7 +9,6 @@ export default HomePage = () => {
   }, [])
   const getData = () => {
     try {
-
       AsyncStorage.getItem('UserData')
         .then(value => {
           if (value != null) {

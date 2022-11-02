@@ -8,15 +8,13 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 
-export default Login = ({ navigation }) => {
+export default function SignUp({navigation}) {
   const [userName, setUserName] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-
   const setData = async () => {
     if (userName.length == 0 || password.length == 0) {
       Alert.alert("Fields is required!");
@@ -26,6 +24,8 @@ export default Login = ({ navigation }) => {
       try {
         const userData = {
           userName: userName,
+          Email: Email,
+          Phone: Phone,
           password: password,
         }
         await AsyncStorage.setItem('UserData', JSON.stringify(userData));
@@ -34,7 +34,6 @@ export default Login = ({ navigation }) => {
       catch (err) { console.log(err) }
     }
   }
-  // let a = require('../assets/adaptive-icon.png');
   return (
     <SafeAreaView>
       <TouchableOpacity
@@ -43,28 +42,35 @@ export default Login = ({ navigation }) => {
       >
         <AntDesign name="left" size={30} color="black" />
       </TouchableOpacity>
-      <Text style={styles.title}>Sign In</Text>
+      <Text style={styles.title}>Create new account</Text>
       <View View style={styles.container} >
         <View>
           <TextInput style={styles.textInput}
-            placeholder="Email Or Phone Number"
+            placeholder="Full Name"
             placeholderTextColor={'#ccc'}
             onChangeText={(value) => setUserName(value)} />
         </View>
         <View>
-          <TextInput
-            style={styles.textInput}
+          <TextInput style={styles.textInput}
+            placeholder="Phone Number"
+            placeholderTextColor={'#ccc'}
+            onChangeText={(value) => setPhone(value)} />
+        </View>
+        <View>
+          <TextInput style={styles.textInput}
+            placeholder="Email Address"
+            placeholderTextColor={'#ccc'}
+            onChangeText={(value) => setEmail(value)} />
+        </View>
+        <View>
+          <TextInput style={styles.textInput}
             placeholder="Password"
             placeholderTextColor={'#ccc'}
             onChangeText={(value) => setPassword(value)}
             secureTextEntry={true} />
         </View>
-        <TouchableOpacity style={[styles.button, { marginTop: 10 }]} >
-          <Text style={{ fontSize: 20, color: 'white' }}>Log In</Text>
-        </TouchableOpacity>
-        <Text style={{ fontSize: 25, marginTop: 50, marginBottom: 50 }}> OR </Text>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#344d91' }]} >
-          <Text style={{ fontSize: 20, color: 'white' }}>Facebook Login</Text>
+          <Text style={{ fontSize: 20, color: 'white' }}>Sign Up</Text>
         </TouchableOpacity>
       </View >
     </SafeAreaView >
