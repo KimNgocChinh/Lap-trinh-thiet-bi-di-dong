@@ -16,7 +16,7 @@ export default function SignUp({navigation}) {
   const [Phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const setData = async () => {
-    if (userName.length == 0 || password.length == 0) {
+    if (userName.length == 0 || Email.length == 0 || Phone.length == 0 || password.length == 0) {
       Alert.alert("Fields is required!");
     }
 
