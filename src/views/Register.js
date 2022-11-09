@@ -1,37 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import { AntDesign } from '@expo/vector-icons';
 import {
   StyleSheet, Text, View,
-  TextInput, Button,
   SafeAreaView,
-  Image, ImageBackground,
   TouchableOpacity,
-  Alert
-} from 'react-native';
-import { useState, useEffect } from 'react';
+  Alert,
+  TextInput
+} from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
+import React, { useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import uuid from 'react-uuid'
 
-export default function SignUp({navigation}) {
-  const [userName, setUserName] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Phone, setPhone] = useState('');
+export default function Register({ navigation }) {
+  const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+
+  // useEffect(() => {
+  //   fetch("https://jsonplaceholder.typicode.com/users")
+  //     .then((res) => res.json())
+  //     // .then((res) => console.log(res))
+  //     .catch((error) => console.log('Loi:  ', error))
+  // }, [])
   const setData = async () => {
-    if (userName.length == 0 || Email.length == 0 || Phone.length == 0 || password.length == 0) {
+    if (fullName.length == 0 || password.length == 0 || email.length == 0 || phoneNumber.length == 0) {
       Alert.alert("Fields is required!");
     }
 
     else {
       try {
-        const userData = {
-          userName: userName,
-          Email: Email,
-          Phone: Phone,
+        let userData = {}
+        const item = {
+          id: uuid(),
+          fullName: fullName,
           password: password,
+          email: email,
+          phoneNumber: phoneNumber
         }
+        userData = item
         await AsyncStorage.setItem('UserData', JSON.stringify(userData));
-        navigation.navigate('Home');
+        const getFullName = fullName
+        const getPassword = password
+        navigation.navigate('Login', getFullName, getPassword);
       }
       catch (err) { console.log(err) }
+      setFullName('')
+      setPhoneNumber('')
+      setPassword('')
+      setEmail('')
     }
   }
   return (
@@ -42,35 +58,43 @@ export default function SignUp({navigation}) {
       >
         <AntDesign name="left" size={30} color="black" />
       </TouchableOpacity>
-      <Text style={styles.title}>Create new account</Text>
+      <Text style={styles.title}>New Account</Text>
       <View View style={styles.container} >
         <View>
           <TextInput style={styles.textInput}
             placeholder="Full Name"
             placeholderTextColor={'#ccc'}
-            onChangeText={(value) => setUserName(value)} />
+            onChangeText={(value) => setFullName(value)}
+            value={fullName}
+          />
         </View>
         <View>
           <TextInput style={styles.textInput}
             placeholder="Phone Number"
             placeholderTextColor={'#ccc'}
-            onChangeText={(value) => setPhone(value)} />
+            onChangeText={(value) => setPhoneNumber(value)}
+            value={phoneNumber} />
         </View>
         <View>
           <TextInput style={styles.textInput}
-            placeholder="Email Address"
+            placeholder="Email"
             placeholderTextColor={'#ccc'}
-            onChangeText={(value) => setEmail(value)} />
+            onChangeText={(value) => setEmail(value)}
+            value={email} />
         </View>
         <View>
-          <TextInput style={styles.textInput}
+          <TextInput
+            style={styles.textInput}
             placeholder="Password"
             placeholderTextColor={'#ccc'}
             onChangeText={(value) => setPassword(value)}
             secureTextEntry={true} />
         </View>
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#344d91' }]} >
-          <Text style={{ fontSize: 20, color: 'white' }}>Sign Up</Text>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#344d91' }]}
+          onPress={() => setData()}
+        >
+          <Text style={{ fontSize: 20, color: 'white' }} >Sign Up</Text>
         </TouchableOpacity>
       </View >
     </SafeAreaView >
@@ -123,8 +147,4 @@ const styles = StyleSheet.create({
     color: "#06bcee",
     marginBottom: 20,
   },
-  image_1: {
-    height: 100,
-    width: 100
-  }
 });

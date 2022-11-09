@@ -3,7 +3,7 @@ import React from 'react'
 
 const item = {
   id: 1,
-  image: require('../images/icons8-restaurant-menu-101-b2.png'),
+  image: require('../images/icons8-restaurant-menu-101-p2.png'),
   title: "Welcome to our restaurant",
   subtitle: "Order food and make reservations with one click.",
 }
@@ -39,7 +39,7 @@ export default function Landing({ navigation }) {
         borderRadius: 50,
         marginTop: 20
       }}
-      onPress={() => navigation.navigate('SignUp')}
+        onPress={() => navigation.navigate('Register')}
       >
         <Text style={{ fontSize: 20, color: '#5EA33A' }}>Sign Up</Text>
       </TouchableOpacity>

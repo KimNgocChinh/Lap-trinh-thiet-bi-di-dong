@@ -2,34 +2,38 @@ import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import {
   StyleSheet, Text, View,
-  TextInput, Button,
   SafeAreaView,
-  Image, ImageBackground,
   TouchableOpacity,
-  Alert
+  Alert, TextInput,
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default Login = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
   const setData = async () => {
     if (userName.length == 0 || password.length == 0) {
       Alert.alert("Fields is required!");
     }
-
     else {
       try {
-        const userData = {
-          userName: userName,
-          password: password,
-        }
-        await AsyncStorage.setItem('UserData', JSON.stringify(userData));
-        navigation.navigate('Home');
+        await AsyncStorage.getItem('UserData')
+          .then(value => {
+            if (value != null) {
+              const userData = JSON.parse(value);
+              return userData
+            }
+          })
+          .then(userData => {
+            userData.email == userName || userData.phoneNumber == userName
+              ? (
+                userData.password == password
+                  ? navigation.navigate('Home')
+                  : Alert.alert("User Name or Password is incorrect")
+              )
+              : Alert.alert("User Name is incorrect")
+          })
       }
       catch (err) { console.log(err) }
     }
@@ -59,8 +63,11 @@ export default Login = ({ navigation }) => {
             onChangeText={(value) => setPassword(value)}
             secureTextEntry={true} />
         </View>
-        <TouchableOpacity style={[styles.button, { marginTop: 10 }]} >
-          <Text style={{ fontSize: 20, color: 'white' }}>Log In</Text>
+        <TouchableOpacity
+          style={[styles.button, { marginTop: 10 }]}
+          onPress={() => setData()}
+        >
+          <Text style={{ fontSize: 20, color: 'white' }}>Login</Text>
         </TouchableOpacity>
         <Text style={{ fontSize: 25, marginTop: 50, marginBottom: 50 }}> OR </Text>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#344d91' }]} >
@@ -117,8 +124,4 @@ const styles = StyleSheet.create({
     color: "#06bcee",
     marginBottom: 20,
   },
-  image_1: {
-    height: 100,
-    width: 100
-  }
 });
