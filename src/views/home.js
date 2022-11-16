@@ -26,10 +26,12 @@ export default HomePage = () => {
 
 
   return (
-    <>
-      <Navbar title="Home" />
+    <View style={{
+      width: '100%',
+      height: '100%',
+    }}>
+      {/* <Navbar title="Home" /> */}
       <ScrollView style={{
-        flex: 1,
         marginTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 0,
         // paddingHorizontal: 20
       }}>
@@ -71,6 +73,6 @@ export default HomePage = () => {
           <ListPopularItems />
         </View>
       </ScrollView>
-    </>
+    </View>
   )
 }

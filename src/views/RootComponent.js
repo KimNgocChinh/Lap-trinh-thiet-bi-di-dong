@@ -7,6 +7,7 @@ import Landing from './Landing';
 import Register from './Register'
 import Menu from './Menu'
 import SideDrawer from './SideDrawer'
+import ItemDetail from './ItemDetail';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ export default RootComponent = () => {
         <Stack.Screen name="Slide" component={Slide} />
         <Stack.Screen name="Menu" component={Menu} />
         <Stack.Screen name="SideDrawer" component={SideDrawer} />
+        <Stack.Screen name="ItemDetail" component={ItemDetail} />
 
       </Stack.Navigator>
     </NavigationContainer >

@@ -1,11 +1,12 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-
+import ItemDetail from '../src/views/ItemDetail'
 export default function ItemPopularCard({ title, imageUrl, price }) {
   return (
     <TouchableOpacity style={{
       marginBottom: 20,
-    }}>
+    }}
+    >
       <Image
         style={{
           height: 200,
